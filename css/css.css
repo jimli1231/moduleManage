@@ -36,5 +36,11 @@ cursor: move;
     border: 1px solid black;
 }
 #deleteButton{
-    display: none; position: fixed; bottom: 10px; right: 10px
+    display: none; 
+}
+.btn-box{
+   position: fixed; bottom: 10px; right: 10px
+}
+#exportButton{
+    position: fixed; top: 10px; right: 10px
 }

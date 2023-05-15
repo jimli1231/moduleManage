@@ -1,56 +1,53 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <title>BabylonJS Scene</title>
-    <link rel="stylesheet" href="./css//css.css" />
-    <script src="./js/babylon.js"></script>
-    <script src="./js//babylonjs.loaders.min.js"></script>
-  </head>
-  <body>
-    <div id="modelPanel">
-      <h3>模型栏</h3>
-      <div
+
+<head>
+  <meta charset="utf-8" />
+  <title>BabylonJS Scene</title>
+  <link rel="stylesheet" href="./css//css.css" />
+  <script src="./js/common/babylon.js"></script>
+  <script src="./js//common//babylonjs.loaders.min.js"></script>
+</head>
+
+<body>
+
+  <div id="modelPanel">
+    <h3>模型栏</h3>
+    <!-- <div
         class="modelItem"
         draggable="true"
         data-path="./assets/a-transformed.glb"
       >
         洗衣机
-      </div>
-      <div
-        class="modelItem"
-        draggable="true"
-        data-path="./assets/b-transformed.glb"
-      >
-        弯曲机
-      </div>
-      <!-- 添加更多模型 -->
+      </div> -->
+    <div class="modelItem" draggable="true" data-path="./assets/b.glb">
+      弯曲机
     </div>
-    <div id="dialog">
-      <label for="scale">模型大小比例：</label>
-      <input type="number" id="scale" value="1" min="0.1" step="0.1" />
-      <br />
-      <label for="description">模型说明信息：</label>
-      <input type="text" id="description" />
-      <br />
-      <button id="confirm">确认</button>
-    </div>
+    <!-- 添加更多模型 -->
+  </div>
+  <div id="dialog">
+    <label for="scale">模型大小比例：</label>
+    <input type="number" id="scale" value="1" min="0.1" step="0.1" />
+    <br />
+    <label for="description">模型说明信息：</label>
+    <input type="text" id="description" />
+    <br />
+    <button id="confirm">确认</button>
+  </div>
+  <div class="btn-box">
     <button id="deleteButton">删除模型</button>
-    <canvas id="canvas"></canvas>
-    <script type="module">
-      import { init } from "./js/init.js";
-      let selectedMesh = null;
-      const deleteButton = document.getElementById("deleteButton");
-      deleteButton.addEventListener("click", () => {
-        if (selectedMesh) {
-          selectedMesh.dispose();
-          selectedMesh = null;
-          deleteButton.style.display = "none";
-        }
-      });
-      const canvas = document.getElementById("canvas");
-      const engine = new BABYLON.Engine(canvas, true);
-      init(engine);
-    </script>
-  </body>
+   
+  </div>
+  <button id="exportButton">导出</button>
+  <canvas id="canvas"></canvas>
+  <script type="module">
+    import { init } from "./js/init.js";
+
+
+    const canvas = document.getElementById("canvas");
+    const engine = new BABYLON.Engine(canvas, true);
+    init(engine);
+  </script>
+</body>
+
 </html>
