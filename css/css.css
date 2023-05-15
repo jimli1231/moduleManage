@@ -38,9 +38,40 @@ cursor: move;
 #deleteButton{
     display: none; 
 }
-.btn-box{
-   position: fixed; bottom: 10px; right: 10px
-}
+
 #exportButton{
     position: fixed; top: 10px; right: 10px
 }
+.btn-box {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .icon-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .icon-btn i {
+    margin-right: 5px;
+  }
+  
+  .icon-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  .icon-btn:active {
+    background-color: #004085;
+  }
