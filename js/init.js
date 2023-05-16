@@ -2,17 +2,22 @@ import { createScene } from "./scene.js";
 import { createDropBehavior } from "./dragBehavior.js";
 import { showDialog } from "./dialog.js";
 import { handlerProxy } from "./common/utils.js";
-import { deleteButtonInit, exportButtonInit } from "./btns.js";
+import { commonBtnInit, deleteButtonInit } from "./btns.js";
 const proxySelectedMesh = new Proxy({ value: null }, handlerProxy);
+let scene
 const proxyCurrentOrders = new Proxy(
   { value: "createMoveBehavior" },
   handlerProxy
 );
+const proxyModel = new Proxy(
+  { value: null },
+  handlerProxy
+);
 
 export const init = async (engine) => {
-  const scene = await createScene(engine);
+  scene = await createScene(engine);
+  commonBtnInit(scene, proxySelectedMesh, proxyCurrentOrders, (e) => reloadModule())
   let deleteButton = deleteButtonInit(scene, proxySelectedMesh);
-  let exportButton = exportButtonInit(scene, proxySelectedMesh);
   engine.runRenderLoop(() => {
     scene.render();
   });
@@ -39,45 +44,12 @@ export const init = async (engine) => {
     const modelPath = e.dataTransfer.getData("text");
     if (modelPath) {
       showDialog(async (scale, description, id) => {
-        const model = await BABYLON.SceneLoader.AppendAsync(
+        proxyModel.value = await BABYLON.SceneLoader.AppendAsync(
           "",
           modelPath,
           scene
         );
-        model.meshes.forEach((mesh) => {
-          if (mesh.name !== "factoryFloor" && mesh.name !== "__root__") {
-            // 添加此行以跳过地板
-            if (!mesh.ownId) {
-              mesh.ownId = id;
-              mesh.ownScale = scale;
-              mesh.ownPath = modelPath;
-            }
-            mesh.scaling = new BABYLON.Vector3(
-              mesh.ownScale,
-              mesh.ownScale,
-              mesh.ownScale
-            );
-            createDropBehavior(mesh, proxyCurrentOrders.value);
-            mesh.actionManager = new BABYLON.ActionManager(scene);
-            mesh.actionManager.registerAction(
-              new BABYLON.ExecuteCodeAction(
-                BABYLON.ActionManager.OnPickTrigger,
-                () => {
-                  scene.meshes.forEach((otherMesh) => {
-                    if (otherMesh === mesh) {
-                      otherMesh.showBoundingBox = true;
-                      proxySelectedMesh.value = otherMesh;
-                      deleteButton.style.display = "block";
-                    } else {
-                      otherMesh.showBoundingBox = false;
-                    }
-                  });
-                }
-              )
-            );
-          }
-        });
-        // model.metadata = { description: description, path: modelPath };
+        reloadModule(id, modelPath)
         const animationGroups = scene.animationGroups;
         if (animationGroups.length > 0) {
           animationGroups[0].start(true); // Play the first animation group
@@ -88,3 +60,37 @@ export const init = async (engine) => {
     }
   });
 };
+const reloadModule = (id, modelPath) => {
+  if (proxyModel.value) {
+    proxyModel.value.meshes.forEach((mesh) => {
+      if (mesh.name !== "factoryFloor" && mesh.name !== "__root__") {
+        // 添加此行以跳过地板
+        if (!mesh.ownId && id) {
+          mesh.ownId = id;
+          mesh.ownPath = modelPath;
+        }
+        createDropBehavior(mesh, proxyCurrentOrders.value);
+        mesh.actionManager = new BABYLON.ActionManager(scene);
+        mesh.actionManager.registerAction(
+          new BABYLON.ExecuteCodeAction(
+            BABYLON.ActionManager.OnPickTrigger,
+            () => {
+              scene.meshes.forEach((otherMesh) => {
+                if (otherMesh === mesh) {
+                  otherMesh.showBoundingBox = true;
+                  proxySelectedMesh.value = otherMesh;
+                  deleteButton.style.display = "block";
+                } else {
+                  otherMesh.showBoundingBox = false;
+                }
+              });
+            }
+          )
+        );
+      }
+    });
+  } else {
+    console.log('please select this module');
+  }
+
+}

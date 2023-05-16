@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="./css//css.css" />
   <script src="./js/common/babylon.js"></script>
   <script src="./js//common//babylonjs.loaders.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" >
+  <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.css">
 </head>
 
 <body>
@@ -37,10 +37,12 @@
   </div>
   <div class="btn-box">
     <button id="rotateButton" class="icon-btn"><i class="fas fa-sync-alt"></i> 旋转</button>
+    <button id="scaleButton" class="icon-btn"><i class="fas fa-expand-arrows-alt"></i> 缩放</button>
     <button id="moveButton" class="icon-btn"><i class="fas fa-arrows-alt"></i> 移动</button>
-    <button id="deleteButton" style="background-color:rgb(216, 71, 71);" class="icon-btn"><i class="fas fa-trash-alt"></i> 删除</button>
+    <button id="deleteButton" style="background-color:rgb(216, 71, 71);" class="icon-btn"><i
+        class="fas fa-trash-alt"></i> 删除</button>
   </div>
-  <button id="exportButton" class="icon-btn">  <i class="fas fa-file-export"></i>  导出</button>
+  <button id="exportButton" class="icon-btn"> <i class="fas fa-file-export"></i> 导出</button>
   <canvas id="canvas"></canvas>
   <script type="module">
     import { init } from "./js/init.js";
