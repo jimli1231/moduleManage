@@ -43,7 +43,7 @@ export const init = async (engine) => {
     e.stopPropagation();
     const modelPath = e.dataTransfer.getData("text");
     if (modelPath) {
-      showDialog(async (scale, description, id) => {
+      showDialog(async (metaData, id) => {
         proxyModel.value = await BABYLON.SceneLoader.AppendAsync(
           "",
           modelPath,
