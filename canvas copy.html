@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Animation</title>
+</head>
+<body>
+    <canvas id="canvas" width="800" height="400"></canvas>
+    <script>
+        const canvas = document.getElementById("canvas");
+        const context = canvas.getContext("2d");
+
+        let alpha = 0;
+
+        function draw() {
+            // Clear the canvas
+            context.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw a point at (50, 50)
+            context.beginPath();
+            context.arc(50, 50, 5, 0, 2 * Math.PI);
+            context.fillStyle = `rgba(0, 0, 0, ${alpha})`;
+            context.fill();
+
+            // Draw a line at a 35-degree angle upwards with a length of 10
+            context.beginPath();
+            context.moveTo(50, 50);
+            const angle = (35 * Math.PI) / 180;
+            const dx = Math.cos(angle) * 50;
+            const dy = -Math.sin(angle) * 50;
+            context.lineTo(50 + dx, 50 + dy);
+            context.strokeStyle = `rgba(0, 0, 0, ${alpha})`;
+            context.stroke();
+
+            // Draw a horizontal line of length 5
+            context.beginPath();
+            context.moveTo(50 + dx, 50 + dy);
+            context.lineTo(50 + dx + 20, 50 + dy);
+            context.strokeStyle = `rgba(0, 0, 0, ${alpha})`;
+            context.stroke();
+
+            // Add the text "hello world"
+            context.font = "20px Arial";
+            context.fillStyle = `rgba(0, 0, 0, ${alpha})`;
+            context.fillText("hello world", 50 + dx + 20, 50 + dy);
+
+            // Update the alpha value
+            alpha += 0.01;
+
+            // Check if the animation should stop
+            if (alpha <= 1) {
+                requestAnimationFrame(draw);
+            }
+        }
+
+        // Start the animation
+        draw();
+    </script>
+</body>
+</html>
