@@ -6,9 +6,9 @@ export const showDialog = (callback) => {
   document.body.appendChild(dialog);
   const confirmButton = dialog.querySelector("#confirm");
   confirmButton.addEventListener("click", () => {
-    const scale = parseFloat(dialog.querySelector("#scale").value);
+    const title = parseFloat(dialog.querySelector("#title").value);
     const description = dialog.querySelector("#description").value;
-    callback(scale, description, generateUUID());
+    callback({title,description}, generateUUID());
     document.body.removeChild(dialog);
   });
 };
