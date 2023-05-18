@@ -42,7 +42,7 @@ const createScaleBehavior = (model) => {
 
     const value = event.delta.x  // 你可以根据需要调整除以的数值，以改变旋转速度
     Scale = Scale + value;
-    if (Scale <= 0) Scale = 0
+    if (Scale <= 0) Scale = 0.2
     model.scaling = new BABYLON.Vector3(Scale, Scale, Scale);
   });
   model.addBehavior(pointerDragBehavior);
