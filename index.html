@@ -4,10 +4,11 @@
 <head>
   <meta charset="utf-8" />
   <title>BabylonJS Scene</title>
-  <link rel="stylesheet" href="./css//css.css" />
+  <link rel="stylesheet" href="./css/css.css" />
   <script src="./js/common/babylon.js"></script>
   <script src="./js//common//babylonjs.loaders.min.js"></script>
-  <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.css">
+  <link rel="stylesheet" href="./css/font-awesome.css">
+  <script src="./js/common/pixi.js"></script>
 </head>
 
 <body>
@@ -28,7 +29,7 @@
   </div>
   <div id="dialog">
     <label for="scale">模型标题：</label>
-    <input type="text" id="title" type="text" />
+    <input type="text" id="title"  />
     <br />
     <label for="description">模型说明信息：</label>
     <input type="texture" id="description" />
@@ -36,6 +37,7 @@
     <button id="confirm">确认</button>
   </div>
   <div class="btn-box">
+    <!-- <button id="selectButton" class="icon-btn"><i class="fas fa-arrow-circle-right"></i> 选择</button> -->
     <button id="rotateButton" class="icon-btn"><i class="fas fa-sync-alt"></i> 旋转</button>
     <button id="scaleButton" class="icon-btn"><i class="fas fa-expand-arrows-alt"></i> 缩放</button>
     <button id="moveButton" class="icon-btn"><i class="fas fa-arrows-alt"></i> 移动</button>
@@ -44,6 +46,8 @@
   </div>
   <button id="exportButton" class="icon-btn"> <i class="fas fa-file-export"></i> 导出</button>
   <canvas id="canvas"></canvas>
+  <div id="pixi-container" style="position:absolute;  top: 0; pointer-events: none;"></div>
+  <script src="./js/painting.js"></script>
   <script type="module">
     import { init } from "./js/init.js";
 

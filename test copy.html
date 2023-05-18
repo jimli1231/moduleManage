@@ -3,139 +3,41 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Model with Konva.js and Babylon.js</title>
-    <style>
-
-
-
-    </style>
+    <title>Document</title>
 </head>
+<style>
+    .icon-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        padding: 8px 12px;
+        margin-bottom: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .icon-btn i {
+        margin-right: 5px;
+    }
+
+    .icon-btn:hover {
+        background-color: #0056b3;
+    }
+
+    .icon-btn:active {
+        background-color: #0d0d47;
+    }
+</style>
 
 <body>
+    <button id="moveButton" class="icon-btn"><i class="fas fa-arrows-alt"></i> 移动</button>
 
-    <canvas id="renderCanvas" style="width: 100vw;height: 100vh;   "></canvas>
-    <div id="pixi-container" style="position:absolute;  
-        top: 0;
-     
-       "></div>
-    </div>
-
-    <script src="https://cdn.babylonjs.com/babylon.js"></script>
-    <script src="https://pixijs.download/v5.3.3/pixi.min.js"></script>
-    <script>
-        const canvas = document.getElementById("renderCanvas");
-        let isDragging = false;
-        let dialogOffsetX, dialogOffsetY;
-
-        const engine = new BABYLON.Engine(canvas, true);
-        const scene = new BABYLON.Scene(engine);
-
-        const camera = new BABYLON.ArcRotateCamera("camera", -Math.PI / 2, Math.PI / 4, 3, new BABYLON.Vector3(0, 0.5, 0), scene);
-        camera.attachControl(canvas, true);
-
-        const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
-
-        const box = BABYLON.MeshBuilder.CreateBox("box", { size: 1 }, scene);
-
-        // 添加点击事件
-        canvas.addEventListener("pointerdown", function (evt) {
-            const pickResult = scene.pick(scene.pointerX, scene.pointerY);
-            if (pickResult.hit && pickResult.pickedMesh === box) {
-
-            } else {
-                // 隐藏对话框
-                // infoDialog.style.display = "none";
-            }
-        });
-
-
-
-        // 添加鼠标释放事件
-        document.addEventListener("pointerup", function (evt) {
-            isDragging = false;
-        });
-
-        engine.runRenderLoop(function () {
-            scene.render();
-        });
-
-        window.addEventListener("resize", function () {
-            engine.resize();
-        });
-    </script>
-    <script>
-        // 创建Pixi应用
-        const app = new PIXI.Application({
-            width: window.innerWidth,
-            height: window.innerHeight,
-            transparent: true, // 设置透明背景
-        });
-        const container = document.getElementById('pixi-container');
-        // 将Pixi应用的渲染器添加到文档中
-        container.appendChild(app.view);
-
-        // 监听 canvas 的 "pointerclick" 事件
-        app.view.addEventListener("click", (event) => {
-            // 获取鼠标相对于 canvas 的坐标
-            const rect = app.view.getBoundingClientRect();
-            const mouseX = event.clientX - rect.left;
-            const mouseY = event.clientY - rect.top;
-
-            // 创建一个Graphics对象
-            const graphics = new PIXI.Graphics();
-
-            // 设置填充颜色为白色
-            graphics.beginFill(0xffffff);
-
-            // 绘制一个圆
-            graphics.drawCircle(mouseX, mouseY, 5);
-
-            // 结束填充并渲染圆
-            graphics.endFill();
-
-            // 绘制一条以35度角向上延伸长度为10的直线
-            const angle = (35 * Math.PI) / 180;
-            const dx = Math.cos(angle) * 40;
-            const dy = -Math.sin(angle) * 40;
-            graphics.lineStyle(1, 0xffffff);
-            graphics.moveTo(mouseX, mouseY);
-            graphics.lineTo(mouseX + dx, mouseY + dy);
-
-            graphics.moveTo(mouseX + dx, mouseY + dy);
-            graphics.lineTo(mouseX + dx + 40, mouseY + dy);
-            // 将Graphics对象添加到舞台上
-            app.stage.addChild(graphics);
-
-            // 创建文本对象
-            const text = new PIXI.Text('', {
-                fontFamily: 'Arial',
-                fontSize: 15,
-                fill: 0xffffff
-            });
-            text.x = mouseX + dx + 40 + 10;
-            text.y = mouseY + dy - 10;
-
-            // 将文本对象添加到舞台上
-            app.stage.addChild(text);
-
-            const textContent = 'Hello World';
-            let textProgress = 0;
-
-            function animateText() {
-                text.text = textContent.slice(0, textProgress);
-                textProgress++;
-
-                if (textProgress <= textContent.length) {
-                    setTimeout(() => {
-                        requestAnimationFrame(animateText);
-                    }, 80);
-                }
-            }
-
-            animateText();
-        });
-    </script>
 </body>
 
 </html>

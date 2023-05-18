@@ -47,7 +47,7 @@ const createScaleBehavior = (model) => {
   });
   model.addBehavior(pointerDragBehavior);
 };
-export const createDropBehavior = (model, type) => {
+export const createDropBehavior = (model, type, scene) => {
   model.behaviors.forEach((behavior) => {
     model.removeBehavior(behavior);
   });
@@ -60,4 +60,65 @@ export const createDropBehavior = (model, type) => {
   }
 
 
+};
+
+
+//拖动方法
+export const creatBaseBehavior = (mesh, scene, selectedMesh,metaData) => {
+  mesh.actionManager = new BABYLON.ActionManager(scene);
+  const common = (otherMesh) => {
+    otherMesh.showBoundingBox = true;
+    selectedMesh = otherMesh;
+    deleteButton.style.display = "block";
+  }
+  // 鼠标进入模型事件
+  mesh.actionManager.registerAction(
+    new BABYLON.ExecuteCodeAction(
+      BABYLON.ActionManager.OnPointerOverTrigger,
+      () => {
+        scene.meshes.forEach((otherMesh) => {
+          if (otherMesh === mesh) {
+            common(otherMesh)
+            const event = new MouseEvent('click', {
+              clientX: window.event.clientX,
+              clientY: window.event.clientY,
+            });
+            event.metaData=metaData
+            pixiApp.view.dispatchEvent(event);
+          } else {
+            otherMesh.showBoundingBox = false;
+          }
+        });
+      }
+    )
+  );
+
+  // 鼠标移出模型事件
+  mesh.actionManager.registerAction(
+    new BABYLON.ExecuteCodeAction(
+      BABYLON.ActionManager.OnPointerOutTrigger,
+      () => {
+        scene.meshes.forEach((otherMesh) => {
+          pixiApp.stage.removeChildren();
+          otherMesh.showBoundingBox = false;
+        });
+      }
+    )
+  );
+
+  // 鼠标单击模型事件
+  mesh.actionManager.registerAction(
+    new BABYLON.ExecuteCodeAction(
+      BABYLON.ActionManager.OnPickTrigger,
+      () => {
+        scene.meshes.forEach((otherMesh) => {
+          if (otherMesh === mesh) {
+
+          } else {
+            otherMesh.showBoundingBox = false;
+          }
+        });
+      }
+    )
+  );
 };

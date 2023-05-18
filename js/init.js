@@ -1,5 +1,5 @@
 import { createScene } from "./scene.js";
-import { createDropBehavior } from "./dragBehavior.js";
+import { createDropBehavior,creatBaseBehavior } from "./behavior.js";
 import { showDialog } from "./dialog.js";
 import { handlerProxy } from "./common/utils.js";
 import { commonBtnInit, deleteButtonInit } from "./btns.js";
@@ -49,7 +49,8 @@ export const init = async (engine) => {
           modelPath,
           scene
         );
-        reloadModule(id, modelPath)
+        reloadModule(id, modelPath,metaData)
+          console.log(metaData);
         const animationGroups = scene.animationGroups;
         if (animationGroups.length > 0) {
           animationGroups[0].start(true); // Play the first animation group
@@ -60,7 +61,7 @@ export const init = async (engine) => {
     }
   });
 };
-const reloadModule = (id, modelPath) => {
+const reloadModule = (id, modelPath,metaData) => {
   if (proxyModel.value) {
     proxyModel.value.meshes.forEach((mesh) => {
       if (mesh.name !== "factoryFloor" && mesh.name !== "__root__") {
@@ -70,23 +71,7 @@ const reloadModule = (id, modelPath) => {
           mesh.ownPath = modelPath;
         }
         createDropBehavior(mesh, proxyCurrentOrders.value);
-        mesh.actionManager = new BABYLON.ActionManager(scene);
-        mesh.actionManager.registerAction(
-          new BABYLON.ExecuteCodeAction(
-            BABYLON.ActionManager.OnPickTrigger,
-            () => {
-              scene.meshes.forEach((otherMesh) => {
-                if (otherMesh === mesh) {
-                  otherMesh.showBoundingBox = true;
-                  proxySelectedMesh.value = otherMesh;
-                  deleteButton.style.display = "block";
-                } else {
-                  otherMesh.showBoundingBox = false;
-                }
-              });
-            }
-          )
-        );
+        creatBaseBehavior(mesh,scene, proxySelectedMesh.value ,metaData)
       }
     });
   } else {
@@ -94,3 +79,5 @@ const reloadModule = (id, modelPath) => {
   }
 
 }
+
+
