@@ -13,3 +13,12 @@ export const handlerProxy = {
   },
 };
 
+export const validateForm = (title, description) => {
+  if (title.trim() === "") {
+    alert("请输入模型标题");
+    return false; // 阻止表单提交
+  } else {
+    return true
+  }
+}
+

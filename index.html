@@ -28,30 +28,37 @@
     <!-- 添加更多模型 -->
   </div>
   <div id="dialog">
-    <label for="scale">模型标题：</label>
-    <input type="text" id="title"  />
+    <label for="title">模型标题：</label>
+    <input type="text" id="title" required />
     <br />
     <label for="description">模型说明信息：</label>
-    <input type="texture" id="description" />
+    <input type="text" id="description" />
     <br />
     <button id="confirm">确认</button>
   </div>
+
+
   <div class="btn-box">
     <!-- <button id="selectButton" class="icon-btn"><i class="fas fa-arrow-circle-right"></i> 选择</button> -->
+    <button id="moveButton" class="icon-btn"><i class="fas fa-arrows-alt"></i> 移动</button>
+
     <button id="rotateButton" class="icon-btn"><i class="fas fa-sync-alt"></i> 旋转</button>
     <button id="scaleButton" class="icon-btn"><i class="fas fa-expand-arrows-alt"></i> 缩放</button>
-    <button id="moveButton" class="icon-btn"><i class="fas fa-arrows-alt"></i> 移动</button>
     <button id="deleteButton" style="background-color:rgb(216, 71, 71);" class="icon-btn"><i
         class="fas fa-trash-alt"></i> 删除</button>
   </div>
+
+
   <button id="exportButton" class="icon-btn"> <i class="fas fa-file-export"></i> 导出</button>
   <canvas id="canvas"></canvas>
   <div id="pixi-container" style="position:absolute;  top: 0; pointer-events: none;"></div>
+  <div id="table-container"  style="position:absolute;  " ></div>
+
+
+
   <script src="./js/painting.js"></script>
   <script type="module">
     import { init } from "./js/init.js";
-
-
     const canvas = document.getElementById("canvas");
     const engine = new BABYLON.Engine(canvas, true);
     init(engine);

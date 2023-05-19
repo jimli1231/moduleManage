@@ -1,5 +1,5 @@
 import { createScene } from "./scene.js";
-import { createDropBehavior,creatBaseBehavior } from "./behavior.js";
+import { createDropBehavior, creatBaseBehavior, cancelSelect } from "./behavior.js";
 import { showDialog } from "./dialog.js";
 import { handlerProxy } from "./common/utils.js";
 import { commonBtnInit, deleteButtonInit } from "./btns.js";
@@ -16,6 +16,7 @@ const proxyModel = new Proxy(
 
 export const init = async (engine) => {
   scene = await createScene(engine);
+
   commonBtnInit(scene, proxySelectedMesh, proxyCurrentOrders, (e) => reloadModule())
   let deleteButton = deleteButtonInit(scene, proxySelectedMesh);
   engine.runRenderLoop(() => {
@@ -49,8 +50,8 @@ export const init = async (engine) => {
           modelPath,
           scene
         );
-        reloadModule(id, modelPath,metaData)
-          console.log(metaData);
+        reloadModule(id, modelPath, metaData)
+
         const animationGroups = scene.animationGroups;
         if (animationGroups.length > 0) {
           animationGroups[0].start(true); // Play the first animation group
@@ -61,17 +62,21 @@ export const init = async (engine) => {
     }
   });
 };
-const reloadModule = (id, modelPath,metaData) => {
+const reloadModule = (id, modelPath, metaData) => {
   if (proxyModel.value) {
     proxyModel.value.meshes.forEach((mesh) => {
+      if (mesh.name == "factoryFloor") {
+        cancelSelect(mesh, proxySelectedMesh, scene)
+      }
       if (mesh.name !== "factoryFloor" && mesh.name !== "__root__") {
         // 添加此行以跳过地板
         if (!mesh.ownId && id) {
           mesh.ownId = id;
+          mesh.ownMetaData = metaData;
           mesh.ownPath = modelPath;
         }
         createDropBehavior(mesh, proxyCurrentOrders.value);
-        creatBaseBehavior(mesh,scene, proxySelectedMesh.value ,metaData)
+        creatBaseBehavior(mesh, scene, proxySelectedMesh, mesh.ownMetaData)
       }
     });
   } else {

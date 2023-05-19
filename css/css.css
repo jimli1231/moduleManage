@@ -83,3 +83,22 @@ body {
 .icon-btn:focus {
   background-color: #0d0d47;
 }
+#table-container {
+  position: absolute;
+  width: 200px;
+  height: 300px;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+}
+
+#table-container div {
+  margin-bottom: 10px;
+}
+
+#table-container a {
+  color: black;
+  text-decoration: underline;
+}
